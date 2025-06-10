@@ -256,3 +256,4 @@ body:has(a:hover, button:hover, .report-item:hover) .magic-cursor {
 body:has(a:hover, button:hover, .report-item:hover) .magic-cursor-dot {
     transform: scale(0.5);
 }
+ 
