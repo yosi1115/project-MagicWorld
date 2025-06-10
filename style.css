@@ -26,7 +26,7 @@ body {
     background: linear-gradient(135deg, var(--c-bg-start), var(--c-bg-end));
     color: var(--c-dark-purple);
     overflow-x: hidden;
-    cursor: default; /* デフォルトのカーソルは消さない */
+    cursor: default; /* カスタムカーソルを使ってもデフォルトカーソルは消さない */
 }
 
 main { position: relative; z-index: 1; background: white; }
@@ -221,4 +221,38 @@ main { position: relative; z-index: 1; background: white; }
     border-bottom: 10px solid transparent;
     border-left: 10px solid #FFA07A;
 }
-.reveal { opacity: 1 !important; }
+
+
+/* --- 追従する魔法の光カーソル --- */
+.magic-cursor, .magic-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* カーソルがクリックの邪魔をしないように */
+    z-index: 10000; /* ポップアップより上に表示 */
+    border-radius: 50%;
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.5s;
+    will-change: transform;
+}
+/* 外側の輪 */
+.magic-cursor {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--c-gold);
+}
+/* 中心の点 */
+.magic-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--c-gold);
+}
+/* リンクやボタンにホバーした時の反応 */
+body:has(a:hover, button:hover, .report-item:hover) .magic-cursor {
+    transform: scale(1.6);
+    background-color: rgba(255, 215, 0, 0.2);
+    border-color: transparent;
+}
+body:has(a:hover, button:hover, .report-item:hover) .magic-cursor-dot {
+    transform: scale(0.5);
+}
