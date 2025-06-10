@@ -2,15 +2,17 @@
 // このコードは、ページが読み込まれた後に実行される
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 初期化関数 ---
-    // すべての魔法をここから呼び出す
-    function init() {
-        initHeroAnimation();
-        initScrollAnimations();
-        initSparkleEffect();
-        initDiagnosis();
-        initSoundEffects();
-    }
+// --- 初期化関数 ---
+// すべての魔法をここから呼び出す
+function init() {
+    initCheerPopup(); // ★ この行を新しく追加しました！
+    initCustomCursor(); 
+    initHeroAnimation();
+    initScrollAnimations();
+    initSparkleEffect();
+    initDiagnosis();
+    initSoundEffects();
+}
 
     // --- 1. ファーストビューのアニメーション ---
     function initHeroAnimation() {
@@ -128,6 +130,59 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // ... （initCustomCursor 関数の定義など） ...
+// ★★★★★ ここまでが追加分 ★★★★★
+
+
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// ★★★★★ ここからが、ポップアップ用の新しい呪文です ★★★★★
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+// --- 7. 魔法の応援ポップアップのロジック ---
+function initCheerPopup() {
+    const popup = document.getElementById('cheer-popup');
+    if (!popup) return;
+
+    let hasCheered = false; // 一度だけ応援するためのフラグ
+
+    // スクロールを監視する
+    window.addEventListener('scroll', () => {
+        // まだ応援しておらず、かつ、ページの60%までスクロールしたら
+        if (!hasCheered && isScrolledPast(60)) {
+            hasCheered = true; // 応援フラグを立てる
+
+            // ポップアップを表示する
+            popup.classList.add('is-visible');
+
+            // 6秒後に自動的に消える
+            setTimeout(() => {
+                popup.classList.remove('is-visible');
+            }, 6000);
+        }
+    });
+
+    // ページの指定された割合までスクロールしたかを判定する関数
+    function isScrolledPast(percentage) {
+        // 現在のスクロール位置
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // ページ全体の高さ
+        const scrollHeight = document.documentElement.scrollHeight;
+        // ブラウザの表示領域の高さ
+        const clientHeight = document.documentElement.clientHeight;
+
+        // スクロール可能な最大値
+        const scrollableHeight = scrollHeight - clientHeight;
+        
+        // スクロールが全くできないページでは何もしない
+        if (scrollableHeight <= 0) return false;
+
+        // 現在のスクロール率
+        const scrollPercent = (scrollTop / scrollableHeight) * 100;
+
+        return scrollPercent >= percentage;
+    }
+}
     
     // --- すべての魔法を発動！ ---
     init();
