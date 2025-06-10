@@ -26,6 +26,7 @@ body {
     background: linear-gradient(135deg, var(--c-bg-start), var(--c-bg-end));
     color: var(--c-dark-purple);
     overflow-x: hidden;
+    cursor: default; /* デフォルトのカーソルは消さない */
 }
 
 main { position: relative; z-index: 1; background: white; }
@@ -65,7 +66,6 @@ main { position: relative; z-index: 1; background: white; }
     transform: translateY(0);
 }
 
-/* アニメーションに遅延を加える */
 .reveal:nth-of-type(2) { transition-delay: 0.1s; }
 .reveal:nth-of-type(3) { transition-delay: 0.2s; }
 .reveal:nth-of-type(4) { transition-delay: 0.3s; }
@@ -79,7 +79,7 @@ main { position: relative; z-index: 1; background: white; }
     align-items: center;
     flex-direction: column;
     text-align: center;
-    background-image: url('https://images.unsplash.com/photo-1551892526-80544c9b2075?q=80&w=2070&auto=format&fit=crop'); /* ダミーの綺麗な空の画像 */
+    background-image: url('https://images.unsplash.com/photo-1551892526-80544c9b2075?q=80&w=2070&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
     color: white;
@@ -172,7 +172,7 @@ main { position: relative; z-index: 1; background: white; }
     100% { transform: scale(1.5) translate(calc(var(--dx) * 30px), calc(var(--dy) * 30px)); opacity: 0; }
 }
 
-/* 魔法の応援ポップアップ */
+/* --- 魔法の応援ポップアップ --- */
 .cheer-popup {
     position: fixed;
     bottom: 20px;
@@ -180,46 +180,36 @@ main { position: relative; z-index: 1; background: white; }
     display: flex;
     align-items: flex-end;
     z-index: 1000;
-
-    /* 初期状態は透明で下に隠しておく */
     opacity: 0;
     transform: translateY(100px);
     transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-    pointer-events: none; /* クリックの邪魔をしない */
+    pointer-events: none;
 }
-
-/* 表示された時のスタイル */
 .cheer-popup.is-visible {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
-
-/* キャラクター部分 */
 .cheer-character {
-    font-size: 80px; /* 画像がない場合のダミーサイズ */
+    font-size: 80px;
     line-height: 1;
     animation: bounce-lightly 2s infinite ease-in-out;
-    filter: drop-shadow(3px 5px 5px rgba(0,0,0,0.2)); /* 影をつけて立体的に */
+    filter: drop-shadow(3px 5px 5px rgba(0,0,0,0.2));
 }
-/* キャラクターのフワフワした動き */
 @keyframes bounce-lightly {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
-
-/* 吹き出し部分 */
 .cheer-bubble {
-    background: linear-gradient(135deg, #FF69B4, #FFA07A); /* ポップなピンク系グラデーション */
+    background: linear-gradient(135deg, #FF69B4, #FFA07A);
     color: white;
     padding: 15px 20px;
     border-radius: 20px;
     margin-right: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     position: relative;
-    max-width: 200px; /* スマホ画面で横幅を取りすぎないように */
+    max-width: 200px;
 }
-/* 吹き出しのしっぽ */
 .cheer-bubble::after {
     content: '';
     position: absolute;
@@ -229,5 +219,5 @@ main { position: relative; z-index: 1; background: white; }
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-left: 10px solid #FFA07A; /* グラデーションの右側の色に合わせる */
+    border-left: 10px solid #FFA07A;
 }
