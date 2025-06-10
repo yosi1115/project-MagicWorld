@@ -221,3 +221,4 @@ main { position: relative; z-index: 1; background: white; }
     border-bottom: 10px solid transparent;
     border-left: 10px solid #FFA07A;
 }
+.reveal { opacity: 1 !important; }
