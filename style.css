@@ -1,0 +1,173 @@
+/* --- 全体の魔法の設計図 (CSS) --- */
+:root {
+    --c-bg-start: #E6E6FA; /* ラベンダー */
+    --c-bg-end: #E0FFF0; /* ミント */
+    --c-accent-pink: #FFF0F5;
+    --c-gold: #FFD700;
+    --c-dark-purple: #483D8B;
+    --c-purple-light: #6a5acd;
+    --font-title: 'Dancing Script', cursive;
+    --font-body: 'M PLUS Rounded 1c', sans-serif;
+    --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 基本設定とリセット --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--c-bg-start), var(--c-bg-end));
+    color: var(--c-dark-purple);
+    overflow-x: hidden;
+}
+
+main { position: relative; z-index: 1; background: white; }
+
+/* --- 汎用スタイル --- */
+.section {
+    padding: 120px 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--c-dark-purple);
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    margin-bottom: 80px;
+    color: #777;
+}
+
+/* --- スクロールアニメーションの基本設定 --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* アニメーションに遅延を加える */
+.reveal:nth-of-type(2) { transition-delay: 0.1s; }
+.reveal:nth-of-type(3) { transition-delay: 0.2s; }
+.reveal:nth-of-type(4) { transition-delay: 0.3s; }
+
+
+/* --- 1. ファーストビュー：進化版 --- */
+#hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-image: url('https://images.unsplash.com/photo-1551892526-80544c9b2075?q=80&w=2070&auto=format&fit=crop'); /* ダミーの綺麗な空の画像 */
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+.book-container, .hero-title, .scroll-down { position: relative; z-index: 2; }
+.book-container { width: 80%; max-width: 700px; height: 70%; max-height: 500px; perspective: 3000px; }
+.book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateY(-30deg); transition: transform 1.5s ease-in-out; }
+.book:hover { transform: rotateY(-10deg); }
+.page, .cover { position: absolute; width: 50%; height: 100%; top: 0; background-color: #f3e9d2; box-shadow: 0 0 30px rgba(0,0,0,0.3); }
+.cover { right: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+#hero.open .cover { transform: rotateY(-170deg); }
+.cover-front { position: absolute; width: 100%; height: 100%; background: var(--c-purple-light); color: var(--c-gold); display: flex; justify-content: center; align-items: center; font-size: 2.5rem; font-family: var(--font-title); backface-visibility: hidden; border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+.page { left: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+.page-content { padding: 40px; }
+.hero-title { font-size: clamp(3rem, 10vw, 5.5rem); font-family: var(--font-title); opacity: 0; transition: opacity 1s 1.8s; position: absolute; text-shadow: 0px 4px 15px rgba(0,0,0,0.5); }
+#hero.open .hero-title { opacity: 1; }
+.scroll-down { position: absolute; bottom: 30px; font-size: 3rem; color: white; animation: bounce-magic 2.5s infinite; opacity: 0; transition: opacity 1s 2.5s; cursor: pointer; }
+#hero.open .scroll-down { opacity: 1; }
+
+@keyframes bounce-magic {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-30px); text-shadow: 0 0 20px var(--c-gold); }
+    80% { transform: translateY(-15px); }
+}
+
+/* --- 2. Prologue --- */
+.prologue-content {
+    max-width: 800px; margin: 0 auto; text-align: center; 
+    line-height: 2.2; font-size: 1.1rem; 
+    background: rgba(255, 255, 255, 0.5); padding: 40px;
+    border-radius: 20px;
+}
+
+/* --- 3. 数字で見るレポート：進化版 --- */
+.report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+.report-item { background: #fff; padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-medium); transition: transform 0.4s, box-shadow 0.4s; position: relative; border-top: 5px solid transparent; }
+.report-item:hover { transform: translateY(-15px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+.report-item:nth-child(4n+1):hover { border-color: #6a5acd; }
+.report-item:nth-child(4n+2):hover { border-color: #ff69b4; }
+.report-item:nth-child(4n+3):hover { border-color: #32cd32; }
+.report-item:nth-child(4n+4):hover { border-color: var(--c-gold); }
+
+.report-item .icon-bg { font-size: 3rem; margin-bottom: 20px; display: inline-block; width: 80px; height: 80px; line-height: 80px; border-radius: 50%; background: var(--c-bg-start); }
+.report-item h3 { font-size: 1.2rem; margin-bottom: 10px; font-weight: 700; }
+.report-item .data { font-size: clamp(3rem, 10vw, 4rem); font-weight: 700; color: var(--c-purple-light); }
+.report-item .unit { font-size: 1.5rem; color: #aaa; margin-left: 5px; }
+.report-item .comment-box { margin-top: 20px; text-align: left; padding: 15px; background: var(--c-accent-pink); border-radius: 10px; font-size: 0.9rem; }
+.report-item .character { font-weight: 700; }
+.character.owl { color: #8B4513; }
+.character.fairy { color: #FF1493; }
+
+
+/* --- 4. 魔法タイプ診断：進化版 --- */
+#diagnosis { background: linear-gradient(to bottom, #fdfbff, #f3f8f6); }
+.diagnosis-box { max-width: 700px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: var(--shadow-medium); }
+.question { margin-bottom: 20px; font-size: 1.2rem; font-weight: 700; text-align: center;}
+.answers button { display: block; width: 100%; padding: 20px; margin-bottom: 10px; border: 2px solid var(--c-bg-start); background: transparent; color: var(--c-dark-purple); border-radius: 15px; font-size: 1.05rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.answers button .btn-text { position: relative; z-index: 2; }
+.answers button::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: linear-gradient(45deg, var(--c-bg-start), var(--c-accent-pink)); z-index: 1; transition: width 0.4s ease; }
+.answers button:hover::before { width: 100%; }
+.result-box { text-align: center; display: none; animation: fadeIn 1s; }
+.result-box h3 { font-size: clamp(1.5rem, 6vw, 2rem); font-family: var(--font-title); color: var(--c-purple-light); }
+.result-box .result-icon { font-size: 4rem; margin: 20px 0; display: inline-block; animation: popIn 0.5s 0.5s backwards; }
+.result-box p { font-size: 1.1rem; line-height: 1.8; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+/* --- 5 & 6. 宝物と招待状：進化版 --- */
+#invitation { background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(180deg, var(--c-bg-end) 0%, var(--c-bg-start) 100%); text-align: center; }
+.invitation-content { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 50px; border-radius: 30px; }
+.treasure-chest { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 800px; margin: 50px auto; }
+.treasure-item { background: white; color: var(--c-dark-purple); padding: 12px 20px; border-radius: 50px; font-weight: 700; box-shadow: var(--shadow-light); transition: transform 0.3s, background 0.3s; }
+.treasure-item:hover { transform: scale(1.1); background: var(--c-gold); }
+.final-message { margin: 50px 0 30px; font-size: 1.3rem; font-weight: 700; }
+.cta-button { display: inline-block; background: linear-gradient(45deg, var(--c-gold), #ffee9b); color: var(--c-dark-purple); padding: 25px 70px; font-size: 1.5rem; font-weight: 700; text-decoration: none; border-radius: 50px; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
+.cta-button .btn-text-wrapper { position: relative; z-index: 2; }
+.cta-button::after { content: '✨'; position: absolute; font-size: 2rem; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); opacity: 0; transition: all 0.5s; color: white; }
+.cta-button:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6); }
+.cta-button:hover::after { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+
+/* --- Footer --- */
+.site-footer { text-align: center; padding: 40px; background: var(--c-dark-purple); color: white; font-size: 0.9rem; }
+
+/* --- キラキラパーティクル --- */
+#sparkle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+.sparkle { position: absolute; width: 10px; height: 10px; background-color: var(--c-gold); border-radius: 50%; opacity: 0; animation: sparkle-anim 0.8s forwards; filter: blur(1px); }
+@keyframes sparkle-anim {
+    0% { transform: scale(0); opacity: 1; }
+    50% { opacity: 1; }
+    100% { transform: scale(1.5) translate(calc(var(--dx) * 30px), calc(var(--dy) * 30px)); opacity: 0; }
+}
